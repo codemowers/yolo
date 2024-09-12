@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    strategy:
+      matrix:
+        include:
+          - version: v8.2.0
+            model: yolov8n
+          - version: v8.2.0
+            model: yolov8s
+          - version: v8.2.0
+            model: yolov8m
+          - version: v8.2.0
+            model: yolov8l
+          - version: v8.2.0
+            model: yolov8x
+
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          build-args: |
+            model=${{ matrix.model }}
+            version=${{ matrix.version }}
+          tags: ${{ github.repository }}:${{ matrix.version }}-${{ matrix.model }}
