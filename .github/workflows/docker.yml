@@ -10,16 +10,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - version: v8.2.0
+          - version: v8.3.0
             model: yolov8n
-          - version: v8.2.0
+          - version: v8.3.0
             model: yolov8s
-          - version: v8.2.0
+          - version: v8.3.0
             model: yolov8m
-          - version: v8.2.0
+          - version: v8.3.0
             model: yolov8l
-          - version: v8.2.0
+          - version: v8.3.0
             model: yolov8x
+          - version: v8.3.0
+            model: yolov8m-oiv7
 
     runs-on: ubuntu-latest
     steps:
